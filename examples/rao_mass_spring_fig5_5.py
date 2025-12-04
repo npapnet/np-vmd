@@ -1,9 +1,9 @@
-#%% [markdown]
+# %% [markdown]
 # This is code related to a mass spring system example  from RAo 6th edition
 # This involves examples:
 # - 5.1 Find the natural frequencies and mode shapes of a spring-mass system
-# 
-#%%
+#
+# %%
 import numpy as np
 import matplotlib.pyplot as plt
 from np_vmd.tdof_MCK import TDOF_modal
@@ -30,7 +30,6 @@ from np_vmd.tdof_MCK import TDOF_modal
 # tmck.update_damping( np.array([0.1, 0.05]))
 # print(tmck.zs)
 # print(tmck.wns)
-
 
 
 # ts = np.linspace(0, 50, 1000) # time vector
@@ -89,23 +88,26 @@ from np_vmd.tdof_MCK import TDOF_modal
 # # # %%
 # # %%
 import sympy as sp
-# e x a m p l e 5.3 rao p523 
-m,k, w =sp.symbols('m k w')
+
+# e x a m p l e 5.3 rao p523
+m, k, w = sp.symbols("m k w")
 # %%
 m1 = 10
-m2= 1
-k1=30
-k2=5
-k3=0
-Mmat = sp.Matrix([[m1, 0],[0, m2]])
-Kmat = sp.Matrix([[k1+k2, -k2],[-k2, k2+k3]])
-#%%
-eig_prob = -w**2 *Mmat + Kmat
-#%%
+m2 = 1
+k1 = 30
+k2 = 5
+k3 = 0
+Mmat = sp.Matrix([[m1, 0], [0, m2]])
+Kmat = sp.Matrix([[k1 + k2, -k2], [-k2, k2 + k3]])
+# %%
+eig_prob = -(w**2) * Mmat + Kmat
+# %%
 
-w1 =sp.solve(list(eig_prob.eigenvals().keys())[0], w)
-w2 =sp.solve(list(eig_prob.eigenvals().keys())[1], w)
+w1 = sp.solve(list(eig_prob.eigenvals().keys())[0], w)
+w2 = sp.solve(list(eig_prob.eigenvals().keys())[1], w)
 # %%
 print(w1)
 # %%
-m,k, w =sp.symbols('m k w')
+m, k, w = sp.symbols("m k w")
+
+# %%

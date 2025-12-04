@@ -10,7 +10,7 @@ authors = [
 ]
 description = "A package for Vibrations and Machine Dynamics"
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -20,7 +20,6 @@ dependencies = [
     "matplotlib",
     "scipy",
     "numpy",
-    "matplotlib",
     "seaborn",
     "pandas",
     "openpyxl",
@@ -28,7 +27,11 @@ dependencies = [
     "jupyter",
 ]
 
-# We split dependencies into logical groups
+# -----------------------------------------------------------------------
+# THE FIX: This header was missing. 
+# It groups the lists below into the correct optional dependencies category.
+# -----------------------------------------------------------------------
+[project.optional-dependencies]
 test = [
     "pytest",
     "pytest-cov",  # Recommended for coverage reports
@@ -43,7 +46,19 @@ docs = [
     "sphinxcontrib-mermaid", # <--- Add this
 ]
 
+[project.urls]
+Source = "https://github.com/npapnet/np-vmd"
+Documentation = "https://npapnet.github.io/np-vmd/"
+
 # --- Tool Configurations ---
+
+[tool.setuptools.dynamic]
+version = {attr = "np_vmd.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["np_vmd*"]
+namespaces = false
 
 [tool.ruff]
 # Ruff config: adhere to 88 line length (Black standard)
@@ -55,26 +70,11 @@ target-version = "py310"
 select = ["E", "F", "I"] 
 
 [tool.mypy]
-# Mypy config
-python_version = "3.10"
+# I removed 'python_version'. 
+# Now mypy will default to checking against the active Python interpreter.
 warn_return_any = true
 warn_unused_configs = true
-# Scientific libraries often lack types, so we ignore missing imports for them
-# to prevent Mypy from screaming at numpy/scipy/matplotlib
+
 [[tool.mypy.overrides]]
-module = ["scipy.*", "matplotlib.*", "numpy.*"]
+module = ["scipy.*", "matplotlib.*", "numpy.*", "pandas.*", "seaborn.*"]
 ignore_missing_imports = true
-
-
-[project.urls]
-Source = "https://github.com/npapnet/np-vmd"
-Documentation = "https://npapnet.github.io/np-vmd/"
-
-[tool.setuptools.dynamic]
-# This looks inside src/np_vmd/__init__.py for "__version__"
-version = {attr = "np_vmd.__version__"}
-
-[tool.setuptools.packages.find]
-where = ["src"]  # DIRECTORY CHANGE: Tells setuptools to look inside src
-include = ["np_vmd*"]
-namespaces = false

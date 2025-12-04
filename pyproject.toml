@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=64.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "np-vmd"  # The name on PyPI (dashes are standard here)
+dynamic = ["version"]
+authors = [
+    {name = "N. Papadakis", email = "npapnet@gmail.com"},
+]
+description = "A package for Vibrations and Machine Dynamics"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "matplotlib",
+    "scipy",
+    "numpy",
+    "matplotlib",
+    "seaborn",
+    "pandas",
+    "openpyxl",
+    "ipykernel",
+    "jupyter",
+]
+
+# We split dependencies into logical groups
+test = [
+    "pytest",
+    "pytest-cov",  # Recommended for coverage reports
+]
+dev = [
+    "ruff",        # The linter/formatter
+    "mypy",        # Static type checker
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",  # The standard "ReadTheDocs" theme (highly recommended)
+    "sphinxcontrib-mermaid", # <--- Add this
+]
+
+# --- Tool Configurations ---
+
+[tool.ruff]
+# Ruff config: adhere to 88 line length (Black standard)
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+# E: pycodestyle, F: Pyflakes, I: isort (imports sorting)
+select = ["E", "F", "I"] 
+
+[tool.mypy]
+# Mypy config
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+# Scientific libraries often lack types, so we ignore missing imports for them
+# to prevent Mypy from screaming at numpy/scipy/matplotlib
+[[tool.mypy.overrides]]
+module = ["scipy.*", "matplotlib.*", "numpy.*"]
+ignore_missing_imports = true
+
+
+[project.urls]
+Source = "https://github.com/npapnet/np-vmd"
+Documentation = "https://npapnet.github.io/np-vmd/"
+
+[tool.setuptools.dynamic]
+# This looks inside src/np_vmd/__init__.py for "__version__"
+version = {attr = "np_vmd.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]  # DIRECTORY CHANGE: Tells setuptools to look inside src
+include = ["np_vmd*"]
+namespaces = false

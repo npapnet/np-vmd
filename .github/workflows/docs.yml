@@ -1,0 +1,57 @@
+name: Deploy Docs
+
+on:
+  # Trigger on push to main (to update the live site)
+  push:
+    branches:
+      - main
+  # Allow manual triggering from the GitHub Actions tab
+  workflow_dispatch:
+
+# Permissions required for modern GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy-docs:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        # We install with [docs] so Sphinx + Mermaid + Theme are installed automatically
+        run: |
+          pip install --upgrade pip
+          pip install -e .[docs]
+
+      - name: Build Sphinx Docs
+        run: |
+          cd docs
+          make html
+
+      - name: Upload Artifact
+        # This is the modern replacement for peaceiris/actions-gh-pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Point to where Sphinx output the HTML. 
+          # Based on your structure, it is usually docs/build/html
+          path: docs/build/html
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

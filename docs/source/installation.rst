@@ -1,11 +1,11 @@
 Installation
 ============
 
-To install [Your Package Name], you will need Python 3.x and pip. Installation is simple and can be done with the following command:
+To install |project|, you will need Python 3.x and pip. Installation is simple and can be done with the following command:
 
 .. code-block:: bash
 
-    pip install nphmu_vmd
+    pip install np-vmd
 
 Dependencies
 ------------
@@ -16,12 +16,12 @@ Dependencies
 - SciPy
 - Matplotlib
 
-These dependencies will be automatically installed when you install [Your Package Name] via pip.
+These dependencies will be automatically installed when you install |project| via pip.
 
 Verify Installation
 -------------------
 
-To verify that [Your Package Name] has been installed correctly, run the following commands in your Python interpreter:
+To verify that |project| has been installed correctly, run the following commands in your Python interpreter:
 
 .. code-block:: python
 
